@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { usePlaidLink } from '../src';
 
@@ -18,12 +18,14 @@ const App = props => {
     []
   );
 
+  const [token, setToken] = useState(null);
+
   const config = {
     clientName: props.clientName || '',
     env: props.env || 'sandbox',
     product: props.product || ['auth'],
     publicKey: props.publicKey,
-    token: props.token,
+    token,
     onSuccess,
     onEvent,
     onExit,
@@ -38,6 +40,15 @@ const App = props => {
 
   return (
     <>
+      <button
+        type="button"
+        className="button"
+        onClick={() => {
+          setToken(props.token);
+        }}
+      >
+        Use new Link token
+      </button>
       <button
         type="button"
         className="button"
