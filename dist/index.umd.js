@@ -178,18 +178,30 @@
 
   function useScript(_a) {
     var src = _a.src,
-        attributes = __rest(_a, ["src"]);
+        _b = _a.checkForExisting,
+        checkForExisting = _b === void 0 ? false : _b,
+        attributes = __rest(_a, ["src", "checkForExisting"]);
 
-    var _b = react__default.useState(true),
-        loading = _b[0],
-        setLoading = _b[1];
+    var _c = react__default.useState(true),
+        loading = _c[0],
+        setLoading = _c[1];
 
-    var _c = react__default.useState(null),
-        error = _c[0],
-        setError = _c[1];
+    var _d = react__default.useState(null),
+        error = _d[0],
+        setError = _d[1];
 
     react__default.useEffect(function () {
       if (!isBrowser) return;
+
+      if (checkForExisting) {
+        var existing = document.querySelectorAll("script[src=\"" + src + "\"]");
+
+        if (existing.length > 0) {
+          setLoading(false);
+          return;
+        }
+      }
+
       var scriptEl = document.createElement('script');
       scriptEl.setAttribute('src', src);
       Object.keys(attributes).forEach(function (key) {
